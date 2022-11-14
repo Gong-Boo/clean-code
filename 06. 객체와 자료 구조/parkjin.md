@@ -102,4 +102,35 @@ class C {
 디미터 법칙은 다음과 같은 객체의 메서드만 호출해야 한다고 주장함
 
 - 클래스 C
-- f가 생성한 객체
+- 메서드 f가 생성한 객체
+- 메서드 f 인수로 넘어온 객체
+- C 클래스의 인스턴스 변수에 저장된 객체
+
+
+```java
+final String outputDir = ctxt.getOptions().getScratchDir().getAbsolutePath();
+```
+허용된 메서드가 반환하는 객체의 메서드는 호출하면 안되며, 위 코드는 디미터 법칙을 어김
+
+
+### 기차 충돌
+위와 같은 코드가 여러 객차가 한 줄로 이어진 기차처럼 보이기 때문에 **기차 충돌**이라 부름    
+조잡하다 여겨지는 방식이므로 아래 코드와 같이 나누는 편이 좋음
+
+
+```java
+Options opts = ctxt.getOptions();
+File scratchDir = opts .getScratchDir();
+final String outputDir = scratchDir.getAbsolutePath();
+```
+
+그러나 위 코드도 ```ctxt```, ```opts```, ```scratchDir```이 객체인지 자료구조인지에 따라 디미터 법칙을 위반 여부가 달려 있음
+객체라면 내부를 숨겨야 하므로 디미터 법칙을 위반하지만, 자료구조라면 내부 구조를 노출하므로 디미터 법칙이 적용되지 않음
+
+```java
+final String outputDir = ctxt.options.scratchDir.absolutePath;
+```
+자료 구조는 무조건 함수 없이 공개 변수만 포함하고, 객체는 비공개 변수와 공개 함수만 포함한다면 간단하겠지만,   
+자료구조에도 get, set 함수를 정의하라는 프레임워크와 표준이 존재함
+
+### 잡종 구조
