@@ -163,13 +163,13 @@ ctxt.getScratchDirectoryOption().getAbsolutePath();
 ---
 
 ## 자료 전달 객체
-공개 변수만 있고, 함수가 없는 클래스가 자료구조의 전형적인 형태로 DTO(자료 전달 객체)라고 함
-일반적인 형태로는 Bean 구조로 비공개 변수를, get/set 함수로 조작함
-일부 순수주의자나 만족시킬 뿐 별다른 이익을 제공하지 않음
-
 <img width="450" src="https://user-images.githubusercontent.com/50200481/201708273-dd4651a3-56ca-4474-a9a2-ab0fab78e532.png">
 
 > 코드 이미지 출처: Clean Code 도서
+
+- 공개 변수만 있고, 함수가 없는 클래스가 자료구조의 전형적인 형태로 DTO(자료 전달 객체)라고 함
+- 일반적인 형태로는 Bean 구조로 비공개 변수를, get/set 함수로 조작함
+- 일부 순수주의자나 만족시킬 뿐 별다른 이익을 제공하지 않음
 
 #
 
