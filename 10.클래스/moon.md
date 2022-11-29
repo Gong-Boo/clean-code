@@ -67,3 +67,38 @@ class A {
 ### 응집도를 유지하면 작은 클래스 여럿이 나온다.
 - 클래스가 응집혁을 잃는다면 쪼개라
 - 큰 함수를 작은 함수 여럿으로 쪼개다 보면 종종 작은 클래스 여럿으로 쪼갤 기회가 생긴다. 그러면서 프로그램에 점점 더 처계가 잡히고 구조가 투명해진다.
+
+## 변경하기 쉬운 클래스
+- 대다수 시스템은 지속적인 변경이 가해진다. 그래서 깨끗한 시스템은 클래스를 체계적으로 정리해 변경에 수반하는 위험을 낮춘다. 
+
+- before
+``` kotlin
+class Sql {
+  fun Sql(table: String, columns: List<Cloumn>)
+  fun create(): String
+  fun insert(fields: Object): String
+  fun select(column: Column): String
+}
+```
+
+- after
+```kotlin
+abstract class Sql {
+  fun Sql(table: String, columns: List<Column>)
+  abstract fun generate()
+}
+
+class CreateSql: Sql {
+  fun CreateSql(table: String, columns : List<Column>)
+  override fun generate()
+}
+...
+```
+- 이런식으로 쪼개지 않을경우 SRP를 위한하게 되고 차후 새로운 기능을 추가할때도 간편해진다.
+
+### 변경으로부터 격리
+- 상세한 구현에 의존하는 클라이언트 클래스는 구현이 바뀌면 위험에 빠진다.
+- 그래서 우리는 인터페이스와 추상 클래스를 사용해 구현이 미치는 영향을 격리한다.
+- 상세한 구현에 의존하는 코드는 테스트가 어렵다.
+- 테스트가 가능할 정도로 시스템 결합도를 낮추면 유연성과 재사용성도 더욱 높아진다.
+- 결합도를 최소로 줄이면 자엽스럽게 또 다른 클래스 설계 원칙인 DIP를 따르는 클래스가 나온다.
