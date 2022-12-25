@@ -5,6 +5,8 @@
 
 <img width="500" src="https://user-images.githubusercontent.com/50200481/209465840-3f5430b6-ad47-4987-89dc-3ec6dda64ff7.png">
 
+> 출처: Clean Code 도서
+
 - **Args 클래스**
   - 생성자에 **형식 문자열**과 **인수 문자열**을 넘겨 Args 인스턴스를 생성
   - 첫번째 매개변수: 형식 또는 스키마를 지정하는 "l,p#,d*"
@@ -15,3 +17,11 @@
   - 생성자에서 ```ArgsException```이 발생하지 않는다면, 명령행 인수의 구문을 성공적으로 분석했으며 Args 인스턴스에 질의를 던져도 좋다는 의미
   - 인수 값을 가져오기 위해서는 ```getBoolean```, ```getInteger```, ```getString```등과 같은 메서드를 사용
   - 형식 문자열이나 명령행 인수 자체에 문제가 있다면 ```ArgsException```이 발생
+
+## Args 구현
+
+<img width="500" src="https://user-images.githubusercontent.com/50200481/209467294-51313c13-79b7-48d0-9f66-9150afc8be0d.png">
+
+> 출처: Clean Code 도서
+
+- 여기저기 뒤적일 필요 없이 위에서 아래로 코드가 읽힘
