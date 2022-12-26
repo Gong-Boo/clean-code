@@ -35,6 +35,8 @@
 - 그래서 TDD를 사용하였다.
 - 언제든 실행이 가증한 자동화 테스트 슈트를 통해 자잘한 변경을 가하기 시작했다.
 - 코드를 변경할때마다 ArgumentMarshaler 개념에 가까워졌다.
+
+### 개선 
 - 먼저 Boolean, String, Intenger ArumentMarshaler를 구현하였다.
 - 그다음 가장 단순한 변경을 가했다. Boolean 인수를 저장하는 HashMap에서 Boolean 인수 유형을 ArumentMarshaler 유형으로 바꿨다.
 - BooleanArumentMarshaler의 parse, get, set 부분도 수정하였다.
