@@ -53,6 +53,29 @@ val directory = arg.getString('d')
 - TDD는 시스템을 망가뜨리는 변경을 허용하지 않는다.
 - 시스템 구조를 개선할 때마다 조금씩 ArgumentMarshaler 개념에 가까워졌다.
 
-### ArgumentMarshaler 추가
+#### ArgumentMarshaler 추가
 - Boolean인수를 지정하는 HashMap에서 Boolean 인수 유형을 ArgumentMarshaler 유형으로 바꿨다.
-- 
+- getBoolean함수에서 falseIfNull를 제거했고, falseIfNull함수 자체도 삭제했다.
+- 함수를 두 행으로 쪼갠 후 ArgumentMarshaler를 argumentMarshaler라는 독자적인 변수에 저장했다.
+- 변수이름 am으로 줄인 후 null점검
+
+#### String 인수 추가
+- String인수를 추가하는 과정은 HashMap을 변경한 후 parse, get, set함수를 고치는 과정으로 boolean인수와 유사했다.
+
+#### ArgumentMarshaler 파생클래스 생성 후 코드 분리
+- int 인수 기능을 ArgumentMarshaler로 옮김
+- setBoolean함수를 BooleanArgumentMarshaler 로 옮긴 후 함수가 올바로 호출되는지 확인
+- ArgumentMarshaler 클래스에 추상 메서드 set 제작
+- BooleanArgumentMarshaler 클래스에 set 메서드 제작
+- setBoolean 호출을 set 호출로 변경
+
+#### 필요없는 Map제거 (ArgumentMarshaler로 맵을 만들어 원래 맵을 교체한뒤 관련 메서드 변경)
+#### set 함수를 해당 ArgumentMarshaler 파생클래스로 내리기
+#### set 함수를 모두 추상 메서드로 호출
+#### 모든 예외를 하나로 모아 ArgsException 클래스를 만든 후 독자 모듈로 옮기기
+
+## 결론
+- 단순히 돌아가는 코드에 만족하는 프로그래머는 전문가 정신이 부족하다
+- 나쁜코드보다 더 오랫동안 더 심각하게 개발 프로젝트에 악영향을 미치는 요인도 없다.
+- 나쁜코드를 깨끗한 코드로 개선하기 위해서는 비용이 엄청나게 많이 든다.
+- 코드는 언제나 최대한 깔끔하고 단순하게 정리하자. 절대로 썩어가게 방치하면 안된다
