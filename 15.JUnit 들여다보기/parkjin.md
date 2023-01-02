@@ -2,7 +2,9 @@
 
 ## Junit 프레임워크
 - 문자열 비교 오류 파악 시 유용한 코드
-- ```ComparisonCompactor```는 두 문자열을 받아 차이를 반환함(예: ABCDE와 ABXDE를 받아 AB[X]DE를 반환)
+- ```ComparisonCompactor```는 두 문자열을 받아 차이를 반환함(예: ABCDE와 ABXDE를 받아 <...B[X]D...>를 반환)
+
+> 목록 15-1
 
 ```java
 package junit.tests.framework;
@@ -105,6 +107,90 @@ public class ComparisonCompactorTest extends TestCase {
     public void testBug609972() {
         String failure = new ComparisonCompactor(10, "S&P500", "0").compact(null);
         assertEquals("expected:<[S&P50]0> but was:<[]0>", failure);
+    }
+}
+```
+- 위 테스트 케이스로 코드 커버리지 분석을 수행했더니 100%가 나옴
+- 테스트 케이스가 모든 행, 모든 If문, 모든 For문을 실행한다는 의미
+
+> 목록 15-2
+
+``` java
+package junit.framework;
+ 
+public class ComparisonCompactor {
+ 
+    private static final String ELLIPSIS = "...";
+    private static final String DELTA_END = "]";
+    private static final String DELTA_START = "[";
+ 
+    private int fContextLength;
+    private String fExpected;
+    private String fActual;
+    private int fPrefix;
+    private int fSuffix;
+ 
+    public ComparisonCompactor(int contextLength, String expected, String actual) {
+        fContextLength = contextLength;
+        fExpected = expected;
+        fActual = actual;
+    }
+ 
+    public String compact(String message) {
+        if (fExpected == null || fActual == null || areStringsEqual()) {
+            return Assert.format(message, fExpected, fActual);
+        }
+ 
+        findCommonPrefix();
+        findCommonSuffix();
+        String expected = compactString(fExpected);
+        String actual = compactString(fActual);
+        return Assert.format(message, expected, actual);
+    }
+ 
+    private String compactString(String source) {
+        String result = DELTA_START + source.substring(fPrefix, source.length() - fSuffix + 1) + DELTA_END;
+        if (fPrefix > 0) {
+            result = computeCommonPrefix() + result;
+        }
+        if (fSuffix > 0) {
+            result = result + computeCommonSuffix();
+        }
+        return result;
+    }
+ 
+    private void findCommonPrefix() {
+        fPrefix = 0;
+        int end = Math.min(fExpected.length(), fActual.length());
+        for (; fPrefix < end; fPrefix++) {
+            if (fExpected.charAt(fPrefix) != fActual.charAt(fPrefix)) {
+                break;
+            }
+        }
+    }
+ 
+    private void findCommonSuffix() {
+        int expectedSuffix = fExpected.length() - 1;
+        int actualSuffix = fActual.length() - 1;
+        for (; actualSuffix >= fPrefix && expectedSuffix >= fPrefix; actualSuffix--, expectedSuffix--) {
+            if (fExpected.charAt(expectedSuffix) != fActual.charAt(actualSuffix)) {
+                break;
+            }
+        }
+        fSuffix = fExpected.length() - expectedSuffix;
+    }
+ 
+    private String computeCommonPrefix() {
+        return (fPrefix > fContextLength ? ELLIPSIS : "") + fExpected.substring(Math.max(0, fPrefix - fContextLength), fPrefix);
+    }
+ 
+    private String computeCommonSuffix() {
+        int end = Math.min(fExpected.length() - fSuffix + 1 + fContextLength, fExpected.length());
+        return fExpected.substring(fExpected.length() - fSuffix + 1, end) + (fExpected.length() - fSuffix + 1 < fExpected.length() - fContextLength ? ELLIPSIS : "");
+    }
+ 
+    private boolean areStringsEqual() {
+        return fExpected.equals(fActual);
     }
 }
 ```
