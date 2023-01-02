@@ -1,6 +1,5 @@
 package refactoring;
 
-
 import junit.framework.Assert;
 
 public class ComparisonCompactor11 {
@@ -45,7 +44,7 @@ public class ComparisonCompactor11 {
     private void findCommonPrefixAndSuffix() {
         findCommonPrefix();
         suffixLength = 0;
-        for (; suffixOverlapsPrefix(suffixLength); suffixLength++) {
+        for (; suffixOverlapsPrefix(); suffixLength++) {
             if (charFromEnd(expected, suffixLength) != charFromEnd(actual, suffixLength)) {
                 break;
             }
@@ -56,7 +55,7 @@ public class ComparisonCompactor11 {
         return s.charAt(s.length() - i - 1);
     }
 
-    private boolean suffixOverlapsPrefix(int suffixLength) {
+    private boolean suffixOverlapsPrefix() {
         return actual.length() - suffixLength <= prefixLength ||
                 expected.length() - suffixLength <= prefixLength;
     }
