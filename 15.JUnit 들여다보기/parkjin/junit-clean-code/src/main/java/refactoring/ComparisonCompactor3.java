@@ -3,46 +3,49 @@ package refactoring;
 
 import junit.framework.Assert;
 
-public class ComparisonCompactor {
+public class ComparisonCompactor3 {
 
     private static final String ELLIPSIS = "...";
     private static final String DELTA_END = "]";
     private static final String DELTA_START = "[";
 
-    /**
-     * Step1. 접두어 f 제거
-     * 오늘날 사용하는 개발 환경에서는 이처럼 변수 이름에 범위를 표시할 필요가 없음
-     * 중복되는 정보이므로 제거
-     */
-    /*-
-    private int fContextLength;
-    private String fExpected;
-    private String fActual;
-    private int fPrefix;
-    private int fSuffix;
-     */
     private int contextLength;
     private String expected;
     private String actual;
     private int prefix;
     private int suffix;
 
-    public ComparisonCompactor(int contextLength, String expected, String actual) {
+    public ComparisonCompactor3(int contextLength, String expected, String actual) {
         this.contextLength = contextLength;
         this.expected = expected;
         this.actual = actual;
     }
 
+
+    /**
+     * Step3. 이름은 명확하게
+     * {@link #compact(String)} 함수 내의 this.expected, this.actual 명확하게 변경
+     * 접두어를 제거하는 바람에 생긴 결과로 지역 변수와 멤버 변수의 이름이 동일함
+     */
     public String compact(String message) {
-        if (expected == null || actual == null || areStringsEqual()) {
+        if (shouldNotCompact())
             return Assert.format(message, expected, actual);
-        }
+
 
         findCommonPrefix();
         findCommonSuffix();
+
+        /*-
         String expected = compactString(this.expected);
         String actual = compactString(this.actual);
-        return Assert.format(message, expected, actual);
+         */
+        String compactExpected = compactString(expected);
+        String compactActual = compactString(actual);
+        return Assert.format(message, compactExpected, compactActual);
+    }
+
+    private boolean shouldNotCompact() {
+        return expected == null || actual == null || areStringsEqual();
     }
 
     private String compactString(String source) {

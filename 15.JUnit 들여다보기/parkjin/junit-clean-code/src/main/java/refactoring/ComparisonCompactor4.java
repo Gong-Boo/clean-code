@@ -3,46 +3,59 @@ package refactoring;
 
 import junit.framework.Assert;
 
-public class ComparisonCompactor {
+public class ComparisonCompactor4 {
 
     private static final String ELLIPSIS = "...";
     private static final String DELTA_END = "]";
     private static final String DELTA_START = "[";
 
-    /**
-     * Step1. 접두어 f 제거
-     * 오늘날 사용하는 개발 환경에서는 이처럼 변수 이름에 범위를 표시할 필요가 없음
-     * 중복되는 정보이므로 제거
-     */
-    /*-
-    private int fContextLength;
-    private String fExpected;
-    private String fActual;
-    private int fPrefix;
-    private int fSuffix;
-     */
     private int contextLength;
     private String expected;
     private String actual;
     private int prefix;
     private int suffix;
 
-    public ComparisonCompactor(int contextLength, String expected, String actual) {
+    public ComparisonCompactor4(int contextLength, String expected, String actual) {
         this.contextLength = contextLength;
         this.expected = expected;
         this.actual = actual;
     }
 
+
+    /**
+     * Step4. 부정문이 긍정문보다 이해하기 어려움
+     * 첫 문장 if를 긍정으로 변경
+     */
     public String compact(String message) {
-        if (expected == null || actual == null || areStringsEqual()) {
+        /*-
+        if (shouldNotCompact())
             return Assert.format(message, expected, actual);
-        }
+
 
         findCommonPrefix();
         findCommonSuffix();
-        String expected = compactString(this.expected);
-        String actual = compactString(this.actual);
-        return Assert.format(message, expected, actual);
+        String compactExpected = compactString(expected);
+        String compactActual = compactString(actual);
+        return Assert.format(message, compactExpected, compactActual);
+         */
+        if (canBeCompacted()) {
+            findCommonPrefix();
+            findCommonSuffix();
+            String compactExpected = compactString(expected);
+            String compactActual = compactString(actual);
+            return Assert.format(message, compactExpected, compactActual);
+        } else {
+            return Assert.format(message, expected, actual);
+        }
+    }
+
+    /*-
+    private boolean shouldNotCompact() {
+        return expected == null || actual == null || areStringsEqual();
+    }
+     */
+    private boolean canBeCompacted() {
+        return expected != null && actual != null && !areStringsEqual();
     }
 
     private String compactString(String source) {
