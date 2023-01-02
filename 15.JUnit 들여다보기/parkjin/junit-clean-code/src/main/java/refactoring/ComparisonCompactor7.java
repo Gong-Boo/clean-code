@@ -85,8 +85,7 @@ public class ComparisonCompactor7 {
         return prefixIndex;
     }
 
-
-    /*
+    /*-
     private void findCommonSuffix() {
         int expectedSuffix = expected.length() - 1;
         int actualSuffix = actual.length() - 1;
