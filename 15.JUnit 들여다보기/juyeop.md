@@ -99,18 +99,30 @@ private boolean suffixOverlapsPrefix(int suffixLength) {
 ```
 
 실제로 suffixIndex는 0에서 시작하지 않는다.  
-1에서 시작하므로 진정한 길이가 아니다.
+1에서 시작하므로 진정한 길이가 아니다.  
+computeCommonSuffix 메서드에서 +1이 곳곳에 등장한 이유가 여기 있었다.
 
+#### 7. suffixLength 오류 수정
+- computeCommonSuffix 메서드에서 +1을 없애고 charFromEnd 메서드에서 -1을 추가하고 suffixOverlapsPrefix 메서드에 <=를 사용했다.
 
+#### 8. compactString 구조 개선
+``` java
+private String compactString(String source) {
+  return 
+    computeCommonPrefix() +
+    DELTA_START +
+    source.substring(prefixLength, source.length() - suffixLength) +
+    DELTA_END +
+    computeCommonSuffix();
+}
+```
 
+#### 9. 추가적으로 리팩터링 진행
+- 모듈은 일련의 분석 함수와 일련의 조합 함수로 나뉜다.
+- 전체 함수는 위상적으로 정렬했으므로 각 함수가 사용된 직후에 정의된다.
+- 분석 함수가 먼저 나오고 조합 함수가 그 뒤를 이어서 나온다.
+- 리팩터링은 코드가 어느 수준에 이를 때까지 수많은 시행착오를 반복하는 작업이기 때문이다.
 
-
-
-
-
-
-
-
-
-
-
+### 결론
+- 세상에 개선이 불필요한 모듈은 없다.
+- 코드를 처음보다 조금 더 깨끗하게 만드는 책임은 우리 모두에게 있다.
