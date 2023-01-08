@@ -282,4 +282,112 @@ public static String relativeToString(final int relative) throws IllegalArgument
     * 테스트 코드 실행 과정에서 발생한 오류 대응
     * 구조적으로 개선이 필요한 부분 기록 후 리팩터링 과정에서 개선
 
-  + 스터디 질문: 각자의 느낀점은?  
+  + 스터디 질문: 각자의 느낀점은?
+
+### 둘째, 고쳐보자
+- 코드를 고칠 때마다 JCommon 단위 테스트와 엉클밥 형이 짠 단위 테스트를 실행했다.
+
+#### 변경 이력 제거
+- 법적인 정보는 필요하므로 라이선스 정보와 저작권을 보존한다.
+- 변경이력은 Git에서 해주므로 제거한다.
+- 불필요한 주석은 거짓말과 잘못된 정보가 쌓이기 좋은 곳이다.
+
+#### import문 수정
+- java.text.*와 java.util.*로 줄인다.
+- 스터디 질문: *를 쓰는 것보다 실제 사용하는 것만 import 하는게 좋지 않나?
+
+#### 한 소스코드에서 여러 언어? 말 안돼
+- 자바, 영어, JavaDoc, HTML 4가지를 사용하고 있다.
+- HTML 태그를 사용해서 줄맞춤을 잘하더라도 JavaDoc으로 수정하면 이상하게 변환될 수 있다.
+- 따라서 차리 pre 태그를 사용하는 것이 좋다. (JavaDoc으로 변환하더라도 형식 그대로 유지됨)
+
+#### 클래스 이름이 왜 SerialDate 일까?
+- Serializable을 파생하니까? NO
+  + 나는 이거 때문인줄 알았다ㅋ
+- 클래스 이름이 SerialDate인 이유는 일련번호를 사용해 클래스를 구현했기 때문이다.
+- 여기서는 1899년 12월 30일 기준으로 경과한 날짜 수를 사용한다.
+  + SERIAL_LOWER_BOUND: 2 (1899/12/30 부터 2일 경과됨 의미)
+  + SERIAL_UPPER_BOUND: 2958465 (1899/12/30 부터 2958465일 경과됨 의미)
+  + 스터디 질문: 왜 1899년 12월 30일 일까?
+- 일련번호는 날짜보다 제품 식별 번호에 더 적합해서 상대 오프셋 또는 서수가 더 적합하다고 생각한다.
+- SerialDate는 추상 클래스인데 정작 이름은 내부 구현을 암시할 수 있도록 한다.
+  + 구현을 암시할 필요가 없다. (숨기는 편이 좋다.)
+  + Date, Day는 많이 쓰므로 DayDate로 앞으로 부르겠다.
+  + 스터디 질문: 추상 클래스이더라도 어떤 역할을 하는지는 알 수 있도록 이름을 지어야 하지 않을까?
+
+#### enum으로 변경한 가능한 코드 변경
+- MonthConstants를 상속하면 MonthConstants.January 같은 코드를 사용하지 않아서 좋긴 하지만 이것 때문에 상속을 하기에는 아쉽다.
+  + import 해서 사용하면 위 문제를 해결할 수 있다.
+- 이제 달 정보를 int로 받던걸 Month 클래스로 받을 수 있다.
+  + isValidMonthCode, monthCodeToQuarter 메서드도 이제 필요하지 않다.
+
+``` java
+public abstract class DayDate implements Comparable,
+        Serializable,
+        MonthConstants {
+
+    public static enum Month {
+        JANUARY(1),
+        FEBRUARY(2),
+        MARCH(3),
+        APRIL(4),
+        MAY(5),
+        JUN(6),
+        JULY(7),
+        AUGUST(8),
+        SEPTEMBER(9),
+        OCTOBER(10),
+        NOVEMBER(11),
+        DECEMBER(12);
+
+        public final int index;
+
+        Month(int index) {
+            this.index = index;
+        }
+
+        public static Month make(int monthIndex) {
+            for (Month m : Month.values()) {
+                if (m.index == monthIndex)
+                    return m;
+            }
+            throw new IllegalArgumentException(("Invalid month index " + monthIndex));
+        }
+    }
+}
+```
+
+#### serialVersionUID 변수 제거
+- 이 변수 값을 변경하면 이전 소프트웨어 버전에서 직렬화한 DayDate를 더 이상 인식하지 못한다.
+- serialVersionUID 변수를 선언하지 않으면 컴파일러가 자동으로 생성한다.
+- serialVersionUID를 매번 변경하지 않아 생기는 괴상한 오류를 디버깅하느니 차라리 InvalidClassException이 발생하는 편이 나을 것 같다고 생각해서 serialVersionUID를 없애기로 결정했다.
+  + 나는 엉클밥형 의견에 동의하지 않는다.
+  + serialVersionUID를 제거하면 오류가 났을 때 더 명확하다는 장점은 있으나 모듈을 조금 수정하더라도 컴파일러가 변수 값을 자동으로 변경할 수 있으므로 이전 버전에서도 역직렬화를 했을 때 되어야 할텐데 되지 않으면 이 경우에는 어떻게 처리할건가?
+  + 스터디 질문: 각자의 의견은?
+
+#### 변수명 변경 및 위치 이동
+- DayDate 클래스가 표현할 수 있는 최초 날짜와 최후 날짜를 의미한다.
+- 변수명을 알맞게 수정했다.
+- DayDate 클래스에는 해당 변수가 있을 이유가 없고 SpreadSheetDate에서만 이를 사용하므로 해당 파일로 옮겼다.
+
+``` java
+/** The serial number for 1 January 1900. */
+public static final int EARLIEST_DATE_ORDINAL = 2;
+
+/** The serial number for 31 December 9999. */
+public static final int LATEST_DATE_ORDINAL = 2958465;
+```
+
+#### ABSTRACT FACTORY 패턴으로 인스턴스 생성 위치 하나로 통일
+- DayDate 클래스를 다양한 곳에서 각지각색으로 생성하고 있어서 이를 관리하기가 어려웠다.
+- 따라서 Factory 클래스를 만들어서 DayDate 인스턴스가 생성되는 것을 하나로 통일함
+- 이때 기반 클래스는 파생 클래스를 모르도록 구조를 잡아야 함
+- 코드는 352, 353쪽을 참고하자
+
+#### final 키워드 제거
+- 실질적인 가치는 없으면서 코드만 복잡하게 만든다고 판단했다.
+- final 상수 등 몇 군데를 제외하고는 별다른 가치가 없으며 코드만 복잡하게 만든다.
+
+### 결론
+- 우리는 보이스카우트 규칙을 따랐다.
+- 테스트 커버리지가 증가했으며, 버그 몇 개를 고쳤으며, 코드 크기가 줄었고, 코드가 명확해졌다.
