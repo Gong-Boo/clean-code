@@ -70,6 +70,25 @@ report.appendFooter();
 
 #### 5. 중복을 만들지 마라
 - DRY(Don't Repeat Yourself) 원칙이라고도 부른다.
+- 익스트림 프로그래밍의 핵심 규칙 중 하나로, 선언한 후 "한 번, 단 한번만(Once and only once)" 이라 명명했다.
+- 코드에서 중복을 발견할 때마다 추상화할 기회로 간주하라.
+- 중복된 코드를 하위 루틴이나 다른 클래스로 분리하라.
+- 여러 모듈에서 일련의 switch/case나 if/else 문으로 똑같은 조건을 거듭 확인하는 중복이다.
+  + 이런 중복은 다형성(polymorphism)으로 대체해야 한다.
+    * http://www.tcpschool.com/java/java_polymorphism_concept
+- 알고리즘이 유사하나 코드가 서로 다른 중복이다.
+  + TEMPLATE METHOD 패턴을 사용한다.
+    * https://coding-factory.tistory.com/712
+  + SATRATEGY 패턴을 사용한다.
+    * https://brownbears.tistory.com/574
+
+- OO 역시 모듈을 정리하고 중복을 제거하는 전략이다.
+  + 스터디 질문: OO는 뭐임 대체?
+
+- 소감
+  + 이래서 디자인 패턴 공부가 필요한 것 같다.
+  + 구조적인 개선이 필요할 때 디자인 패턴을 알지 못하면 더 나은 발전이 어려운 것이다.
+  + 우리가 평소에 작성하던 코드에도 이미 디자인 패턴이 적용되어 있는데 우리는 모르고 있었다.
 
 
 
