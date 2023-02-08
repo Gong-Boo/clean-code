@@ -32,7 +32,7 @@ If you don't read book or don't record contents you should buy all of member's c
 |15.JUnit 들여다보기||
 |16.SerialDate 리팩터링|<a href="https://github.com/juyeop03">Juyeop Kim</a>|
 |17.냄새와 휴리스틱|<a href="https://github.com/kimjw2003">Jongwoo Kim</a>|
-|18.동시성2|<a href="https://github.com/munyoung03">Munyoung Lee</a>|
+|18.동시성2|<a href="https://github.com/munyoung03">Munyoung Lee</a>, <a href="https://github.com/kimjw2003">Jongwoo Kim</a>|
 
 ## Member
 <table>
