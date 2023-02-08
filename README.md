@@ -6,6 +6,34 @@
 ## Period
 Jul 11, 2022 ~ Feb 7, 2023
 
+## Rule
+Before to start offline study all member should read book and record important contents.
+
+## Penalty
+If you don't read book or don't record contents you should buy all of member's coffee at offline study.
+
+## Part
+|Chapter|Speaker|
+|---|---|
+|01.깨끗한 코드|<a href="https://github.com/munyoung03">Munyoung Lee</a>, <a href="https://github.com/ParkJin0318">Jin Park</a>|
+|02.의미있는 이름|<a href="https://github.com/munyoung03">Munyoung Lee</a>, <a href="https://github.com/ParkJin0318">Jin Park</a>|
+|03.함수|<a href="https://github.com/munyoung03">Munyoung Lee</a>, <a href="https://github.com/ParkJin0318">Jin Park</a>|
+|04.주석||
+|05.형식 맞추기||
+|06.객체와 자료 구조||
+|07.오류 처리||
+|08.경계||
+|09.단위 테스트||
+|10.클래스||
+|11.시스템||
+|12.창발성||
+|13.동시성||
+|14.점진적 개선|<a href="https://github.com/munyoung03">Munyoung Lee</a>, <a href="https://github.com/ParkJin0318">Jin Park</a>|
+|15.JUnit 들여다보기|<a href="https://github.com/munyoung03">Munyoung Lee</a>, <a href="https://github.com/ParkJin0318">Jin Park</a>|
+|16.SerialDate 리팩터링|<a href="https://github.com/juyeop03">Juyeop Kim</a>|
+|17.냄새와 휴리스틱|<a href="https://github.com/kimjw2003">Jongwoo Kim</a>|
+|18.동시성2|<a href="https://github.com/munyoung03">Munyoung Lee</a>|
+
 ## Member
 <table>
   <tbody>
@@ -41,3 +69,5 @@ Jul 11, 2022 ~ Feb 7, 2023
     </tr>
   </tbody>
 </table>
+
+
