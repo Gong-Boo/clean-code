@@ -15,9 +15,9 @@ If you don't read book or don't record contents you should buy all of member's c
 ## Part
 |Chapter|Speaker|
 |---|---|
-|01.깨끗한 코드|<a href="https://github.com/munyoung03">Munyoung Lee</a>, <a href="https://github.com/ParkJin0318">Jin Park</a>|
-|02.의미있는 이름|<a href="https://github.com/munyoung03">Munyoung Lee</a>, <a href="https://github.com/ParkJin0318">Jin Park</a>|
-|03.함수|<a href="https://github.com/munyoung03">Munyoung Lee</a>, <a href="https://github.com/ParkJin0318">Jin Park</a>|
+|01.깨끗한 코드||
+|02.의미있는 이름||
+|03.함수||
 |04.주석||
 |05.형식 맞추기||
 |06.객체와 자료 구조||
@@ -30,9 +30,9 @@ If you don't read book or don't record contents you should buy all of member's c
 |13.동시성||
 |14.점진적 개선||
 |15.JUnit 들여다보기||
-|16.SerialDate 리팩터링|<a href="https://github.com/juyeop03">Juyeop Kim</a>|
-|17.냄새와 휴리스틱|<a href="https://github.com/kimjw2003">Jongwoo Kim</a>|
-|18.동시성2|<a href="https://github.com/munyoung03">Munyoung Lee</a>, <a href="https://github.com/kimjw2003">Jongwoo Kim</a>|
+|16.SerialDate 리팩터링||
+|17.냄새와 휴리스틱||
+|18.동시성2||
 
 ## Member
 <table>
